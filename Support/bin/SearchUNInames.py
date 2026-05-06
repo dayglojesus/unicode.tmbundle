@@ -41,7 +41,7 @@ for pat in pattern.split(' '):
 
 grepcmd = " | ".join(grepcmds) + " | uniq | head -n 499 | perl -pe 's/^([^;]+?;.+?);.*/$1/'"
 
-suggestions = os.popen(grepcmd).read().decode("utf-8")
+suggestions = os.popen(grepcmd).read()
 
 if not suggestions:
     print("<i><small>Nothing found</small></i>")

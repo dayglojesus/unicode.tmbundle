@@ -19,7 +19,7 @@ sys.stdin  = codecs.getreader('utf-8')(sys.stdin)
 bundleLibPath = os.environ["TM_BUNDLE_SUPPORT"] + "/lib/"
 
 def wunichr(dec):
-    return ("\\U%08X" % dec).decode("unicode-escape")
+    return chr(dec)
 
 def snp_escape(s):
     return re.sub(r"(?=[$`\\])", r'\\', s)

@@ -125,8 +125,8 @@ def main():
     keys = list(chKeys.keys())
     keys.sort()
 
-    relDataFile = file(bundleLibPath + "relatedChars.txt", 'r')
-    relData = relDataFile.read().decode("UTF-8").splitlines()
+    relDataFile = open(bundleLibPath + "relatedChars.txt", 'r', encoding='utf-8')
+    relData = relDataFile.read().splitlines()
     relDataFile.close()
     groups = SeqDict()    # groups of related chars
     unrel  = []    # list of chars which are not in groups
@@ -158,7 +158,7 @@ def main():
         hexCode = "%04X" % int(c)
         regExp.append(hexCode)
 
-    UnicodeData = os.popen("zgrep -E '^(" + "|".join(regExp) + ");' '" + bundleLibPath + "UnicodeData.txt.gz'").read().decode("UTF-8")
+    UnicodeData = os.popen("zgrep -E '^(" + "|".join(regExp) + ");' '" + bundleLibPath + "UnicodeData.txt.gz'").read()
 
     for c in UnicodeData.splitlines():
         uniData = c.strip().split(';')

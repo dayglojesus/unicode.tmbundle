@@ -199,7 +199,7 @@ def main():
         hexCode = "%04X" % int(c)
         regExp.append(hexCode)
 
-    UnicodeData = os.popen("zgrep -E '^(" + "|".join(regExp) + ");' '" + bundleLibPath + "UnicodeData.txt.gz'").read().decode("UTF-8")
+    UnicodeData = os.popen("zgrep -E '^(" + "|".join(regExp) + ");' '" + bundleLibPath + "UnicodeData.txt.gz'").read()
 
     for c in UnicodeData.splitlines():
         uniData = c.strip().split(';')

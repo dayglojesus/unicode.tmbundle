@@ -83,8 +83,8 @@ def main():
     char = wunichr(lastCharDecCode)
     lastCharUCShexCode = "%04X" % lastCharDecCode
 
-    UnicodeData = os.popen("zgrep '^" + lastCharUCShexCode + ";' '" + bundleLibPath + 
-                            "UnicodeData.txt.gz'").read().decode("utf-8")
+    UnicodeData = os.popen("zgrep '^" + lastCharUCShexCode + ";' '" + bundleLibPath +
+                            "UnicodeData.txt.gz'").read()
 
     name = ""
 
@@ -112,7 +112,7 @@ def main():
 
     if "CJK" in name and ("IDEO" in name or "Ideo" in name):
         cmd = "zgrep -F '" + char + ",' '" + source2 + "'"
-        gdata = os.popen(cmd.encode("UTF-8")).read().decode("UTF-8")
+        gdata = os.popen(cmd).read()
         if len(gdata) > 0:
             RadNum, RadStrokeCnt, RadName, Rad, ExtStrokeCnt, Dummy = gdata.split('\t')
             outDict['Radical (trad.)'] = [Rad, RadStrokeCnt, "画", RadName, RadNum, ExtStrokeCnt]
@@ -120,7 +120,7 @@ def main():
 
         # get all data from Apple's internal UniDict
         cmd = "sqlite3 '" + source1 + "' 'select * from unihan_dict where uchr=\"" + char + "\";' 2>/dev/null"
-        udata = os.popen(cmd.encode("UTF-8")).read().decode("UTF-8")
+        udata = os.popen(cmd).read()
         if udata:
             (uChar, a1, readings, hangul_name_sound, pinyin, zhWubiXing, 
             zhWubiHua, zhBianhao, a2, zhCangjieCh, zhDayi, pinyin1, 
@@ -135,7 +135,7 @@ def main():
 
             # get Chinese simplified/traditional equivalent
             cmd = "egrep '^" + char + "' '" + bundleLibPath + "zhSimTradHanzi.txt'"
-            simtrad = os.popen(cmd.encode("UTF-8")).read().decode("UTF-8")
+            simtrad = os.popen(cmd).read()
             data = ""
             if simtrad: c1, st, data = simtrad.split('\t')
             if pinyin1 or Bopomofo or data or zhWubiXing or zhWubiHua or \

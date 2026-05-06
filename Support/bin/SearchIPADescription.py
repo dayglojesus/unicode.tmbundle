@@ -41,7 +41,7 @@ for pat in pattern.split(' '):
 
 grepcmd = " | ".join(grepcmds)
 
-suggestions = os.popen(grepcmd).read().decode("utf-8").strip()
+suggestions = os.popen(grepcmd).read().strip()
 
 if not suggestions:
     print("<i><small>Nothing found</small></i>")

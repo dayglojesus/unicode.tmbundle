@@ -135,8 +135,8 @@ def expandUniDecompositionClass(abbr):
 
 
 def wunichr(dec):
-    """Returns the Unicode glyph for a given decimal representation even if Python is not compile in UCS-4"""
-    return ("\\U%08X" % dec).decode("unicode-escape")
+    """Returns the Unicode glyph for a given decimal representation"""
+    return chr(dec)
 
 
 def wuniord(s):
