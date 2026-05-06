@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # encoding: utf-8
 
 
@@ -106,7 +106,7 @@ HEADER_HTML = """<html>
 """
 
 def main():
-    print HEADER_HTML
+    print(HEADER_HTML)
 
     # dict of unique chars in doc and the number of its occurrence
     chKeys = {}
@@ -122,7 +122,7 @@ def main():
     except:
         1
 
-    keys = chKeys.keys()
+    keys = list(chKeys.keys())
     keys.sort()
 
     relDataFile = file(bundleLibPath + "relatedChars.txt", 'r')
@@ -145,9 +145,9 @@ def main():
             unrel.append(ch)
 
 
-    print "<table border=1><tr>"
-    print "<th>Character</th><th>Occurrences</th><th>UCS</th><th>Unicode Block</th><th>Unicode Name</th>"
-    print "</tr><tbody id='theTable'>"
+    print("<table border=1><tr>")
+    print("<th>Character</th><th>Occurrences</th><th>UCS</th><th>Unicode Block</th><th>Unicode Name</th>")
+    print("</tr><tbody id='theTable'>")
 
     total    = 0
     distinct = 0
@@ -166,7 +166,7 @@ def main():
 
     bgclasses = ['tr2', 'tr1']
 
-    for (clsstr, gr) in itertools.izip(itertools.cycle(bgclasses), groups.keys()):
+    for (clsstr, gr) in zip(itertools.cycle(bgclasses), list(groups.keys())):
         for c in groups[gr]:
             total += chKeys[c]
             distinct += 1
@@ -174,12 +174,12 @@ def main():
             name = data.get("%04X" % int(c), getNameForRange(c) + "-%04X" % int(c))
             # I have no idea why name can be 1 ??
             if name == 1 or name[0] == '<': name = getNameForRange(c) + "-%04X" % int(c)
-            if "COMBINING" in name: t = u"◌" + t
+            if "COMBINING" in name: t = "◌" + t
             # if groups[gr] has only one element shows up it as not grouped; otherwise bgcolor alternates
             if len(groups[gr]) == 1: clsstr = ''
-            print "<tr class='" + clsstr + "'><td class='a'>", \
+            print("<tr class='" + clsstr + "'><td class='a'>", \
                     t, "</td><td class='a'>", chKeys[c], "</td><td>", \
-                    "U+%04X" % (int(c)), "</td><td>", getBlockName(c), "</td><td>", name, "</tr>"
+                    "U+%04X" % (int(c)), "</td><td>", getBlockName(c), "</td><td>", name, "</tr>")
 
     for c in unrel:
         total += chKeys[c]
@@ -187,33 +187,33 @@ def main():
         t = wunichr(c)
         name = data.get("%04X" % int(c), getNameForRange(c) + "-%04X" % int(c))
         if name == 1 or name[0] == '<': name = getNameForRange(c) + "-%04X" % int(c)
-        if "COMBINING" in name: t = u"◌" + t
-        print "<tr><td class='a'>", t, "</td><td class='a'>", chKeys[c], \
+        if "COMBINING" in name: t = "◌" + t
+        print("<tr><td class='a'>", t, "</td><td class='a'>", chKeys[c], \
                 "</td><td>", "U+%04X" % (int(c)), "</td><td>", \
-                getBlockName(c), "</td><td>", name, "</tr>"
+                getBlockName(c), "</td><td>", name, "</tr>")
 
-    print "</table>"
+    print("</table>")
 
     if total < 2:
         pl = ""
     else:
         pl = "s"
 
-    print '<h2><a name="inventory">Character Inventory</a></h2>'
-    print "<p><i>%d character%s total, %d distinct</i></p>" % (total, pl, distinct)
+    print('<h2><a name="inventory">Character Inventory</a></h2>')
+    print("<p><i>%d character%s total, %d distinct</i></p>" % (total, pl, distinct))
 
-    print '<table id="character-inventory">'
-    print '<tr>'
+    print('<table id="character-inventory">')
+    print('<tr>')
     i = 0
     for c in keys:
         if i > 0 and i % 25 == 0:
-            print '</tr><tr>'
-        print '<td>', wunichr(c), '</td>',
+            print('</tr><tr>')
+        print('<td>', wunichr(c), '</td>', end=' ')
         i += 1
-    print '</tr>'
-    print "</table>"
-    print "<p></p>"
-    print "</body></html>"
+    print('</tr>')
+    print("</table>")
+    print("<p></p>")
+    print("</body></html>")
 
 if __name__ == "__main__":
     main()

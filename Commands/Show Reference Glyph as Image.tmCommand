@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/python
+	<string>#!/usr/bin/env python3
 # encoding: utf-8
 
 import sys
@@ -28,7 +28,7 @@ def codepoints(s):
 
 def lastCharInUCSdec(s):
     if s:
-        if u"\udc00" &lt;= s[-1] &lt;= u"\udfff" and len(s) &gt;= 2 and u"\ud800" &lt;= s[-2] &lt;= u"\udbff":
+        if "\udc00" &lt;= s[-1] &lt;= "\udfff" and len(s) &gt;= 2 and "\ud800" &lt;= s[-2] &lt;= "\udbff":
             global charIsPaneB
             charIsPaneB = 1
             return ((ord(s[-2])&amp;0x3ff)&lt;&lt;10 | (ord(s[-1])&amp;0x3ff)) + 0x10000
@@ -37,33 +37,33 @@ def lastCharInUCSdec(s):
 
 
 if "TM_SELECTED_TEXT" in os.environ:
-    print "\
+    print("\
     &lt;html&gt; \
     &lt;head&gt; \
     &lt;title&gt;www.unicode.org &amp;mdash; Reference Glyphs&lt;/title&gt; \
     &lt;/head&gt; \
     &lt;body&gt; \
-    "
-    for c in codepoints(unicode(os.environ["TM_SELECTED_TEXT"], "UTF-8")):
+    ")
+    for c in codepoints(os.environ["TM_SELECTED_TEXT"]):
         charcode = "%04X" % c
         if c == 10:
-            print "&lt;br /&gt;"
+            print("&lt;br /&gt;")
         elif c == 9:
-            print "&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+            print("&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;")
         elif c == 32:
-            print "&amp;nbsp;"
+            print("&amp;nbsp;")
         else:
-            print "&lt;img src='http://www.unicode.org/cgi-bin/refglyph?24-" + charcode + "'&gt;"
-    print "&lt;/body&gt;&lt;/html&gt;"
+            print("&lt;img src='http://www.unicode.org/cgi-bin/refglyph?24-" + charcode + "'&gt;")
+    print("&lt;/body&gt;&lt;/html&gt;")
 else:
     line, x = os.environ["TM_CURRENT_LINE"], int(os.environ["TM_LINE_INDEX"])
-    lastCharDecCode = lastCharInUCSdec(unicode(line[:x], "UTF-8"))
+    lastCharDecCode = lastCharInUCSdec(line[:x])
     charcode = "%04X" % lastCharDecCode
 
     if len(charcode) == 0:
         sys.exit(200)
 
-    print "\
+    print("\
     &lt;html&gt; \
     &lt;head&gt; \
     &lt;title&gt;www.unicode.org &amp;mdash; Reference Glyph&lt;/title&gt; \
@@ -71,14 +71,14 @@ else:
     &lt;body&gt; \
     &lt;center&gt; \
     &lt;img src='http://www.unicode.org/cgi-bin/refglyph?24-" + charcode + "'&gt; \
-    "
-    print "&lt;br /&gt;&lt;b&gt;U+" + charcode + "&lt;/b&gt;"
-    print " \
+    ")
+    print("&lt;br /&gt;&lt;b&gt;U+" + charcode + "&lt;/b&gt;")
+    print(" \
     &lt;/center&gt; \
     &lt;script type='text/javascript'&gt;window.onload = init;&lt;/script&gt; \
     &lt;/body&gt; \
     &lt;/html&gt; \
-    "
+    ")
 </string>
 	<key>fallbackInput</key>
 	<string>none</string>

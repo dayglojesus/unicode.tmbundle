@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/python
+	<string>#!/usr/bin/env python3
 # coding=utf-8
 
 # written by Hans-Jörg Bibiko; bibiko at eva.mpg.de
@@ -25,17 +25,17 @@ import dialog
 import tm_helpers
 
 if "TM_SELECTED_TEXT" in env:
-     print "Please remove the selection firstly."
+     print("Please remove the selection firstly.")
      sys.exit(206)
 
 line, x = env["TM_CURRENT_LINE"], int(env["TM_LINE_INDEX"])
 
-inputleft = unicode(line[:x], "UTF-8")
+inputleft = line[:x]
 
 if len(inputleft) == 0:
      sys.exit(200)
 
-tail = unicode(line[x:], "UTF-8")
+tail = line[x:]
 char = inputleft[-1]
 head = inputleft[:-1]
 
@@ -44,7 +44,7 @@ with warnings.catch_warnings():
 
 	inp, out = popen2("grep '^"+char.encode("UTF-8")+"' '"+path.join(env["TM_BUNDLE_SUPPORT"], "lib/mirror.txt'"))
 	inp.close()
-	data = unicode(out.read(), "UTF-8").rstrip()
+	data = out.read().rstrip()
 	out.close()
 
 	if len(data) &lt; 3:

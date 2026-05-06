@@ -141,7 +141,7 @@ def wunichr(dec):
 
 def wuniord(s):
     if s:
-        if u"\udc00" <= s[-1] <= u"\udfff" and len(s) >= 2 and u"\ud800" <= s[-2] <= u"\udbff":
+        if "\udc00" <= s[-1] <= "\udfff" and len(s) >= 2 and "\ud800" <= s[-2] <= "\udbff":
             return (((ord(s[-2])&0x3ff)<<10 | (ord(s[-1])&0x3ff)) + 0x10000)
         return (ord(s[-1]))
     return (-1)
@@ -154,7 +154,7 @@ def getNameForRange(dec):
     elif 0x4E00 <= dec <= 0x9FFF:
         return "CJK UNIFIED IDEOGRAPH" + "-%04X" % dec
     elif 0xAC00 <= dec <= 0xD7AF: # Hangul
-        return unicodedata.name(unichr(dec), hexcode)
+        return unicodedata.name(chr(dec), hexcode)
     elif 0xD800 <= dec <= 0xDB7F:
         return "Non Private Use High Surrogate" + hexcode
     elif 0xDB80 <= dec <= 0xDBFF:

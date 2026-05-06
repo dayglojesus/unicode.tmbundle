@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # encoding: utf-8
 
 import unicodedata
@@ -57,7 +57,7 @@ def main():
     def lastCharInUCSdec(s):
         isPaneB = False
         if s:
-            if u"\udc00" <= s[-1] <= u"\udfff" and len(s) >= 2 and u"\ud800" <= s[-2] <= u"\udbff":
+            if "\udc00" <= s[-1] <= "\udfff" and len(s) >= 2 and "\ud800" <= s[-2] <= "\udbff":
                 isPaneB = True
                 return (((ord(s[-2])&0x3ff)<<10 | (ord(s[-1])&0x3ff)) + 0x10000, isPaneB)
             return (ord(s[-1]), isPaneB)
@@ -79,7 +79,7 @@ def main():
         sys.exit(206)
 
 
-    (lastCharDecCode, charIsPaneB) = lastCharInUCSdec(unicode(line[:x], "UTF-8"))
+    (lastCharDecCode, charIsPaneB) = lastCharInUCSdec(line[:x])
     char = wunichr(lastCharDecCode)
     lastCharUCShexCode = "%04X" % lastCharDecCode
 
@@ -115,7 +115,7 @@ def main():
         gdata = os.popen(cmd.encode("UTF-8")).read().decode("UTF-8")
         if len(gdata) > 0:
             RadNum, RadStrokeCnt, RadName, Rad, ExtStrokeCnt, Dummy = gdata.split('\t')
-            outDict['Radical (trad.)'] = [Rad, RadStrokeCnt, u"画", RadName, RadNum, ExtStrokeCnt]
+            outDict['Radical (trad.)'] = [Rad, RadStrokeCnt, "画", RadName, RadNum, ExtStrokeCnt]
             outDict['Strokes (trad.)'] = str(int(RadStrokeCnt) + int(ExtStrokeCnt))
 
         # get all data from Apple's internal UniDict
@@ -178,7 +178,7 @@ def main():
                     decompDict['Class'] = expandUniDecompositionClass(dc[0])
                     decomposition = " ".join(dc[1:])
                 decomp = decomposition
-                def cDec(x): return unichr(int(x,16))
+                def cDec(x): return chr(int(x,16))
                 def rDec(x): return "U+%04X" % ord(x)
                 clist = decomp.split(' ')
                 decomp = " ".join(map(cDec, clist)) + " (U+" + " U+".join(clist) + ")"
@@ -200,14 +200,14 @@ def main():
     if dialog2:
         dlgout = "<table style=\"border-collapse:collapse;\">"
         plh = ""
-        if outDict.has_key('Category') and "Nonspacing" in outDict['Category']: plh = u"o"
+        if 'Category' in outDict and "Nonspacing" in outDict['Category']: plh = "o"
         dlgout += "<tr><td rowspan=2 style=\"border:1px dotted silver;font-size:20pt;text-align:center;\"><font color=#CCCCCC>%s</font>%s</td><td>&nbsp;</td><td style=\"color:grey;\">Name</td><td>%s</td></tr>" % (plh, outDict['Character'], outDict['Name'])
         dlgout += "<tr><td>&nbsp;</td><td style=\"color:grey;\">Block</td><td>%s</td></tr>" % outDict['Block']
         dlgout += "</table><table style=\"border-collapse:collapse;width:200px;\">"
         del outDict['Character']
         del outDict['Name']
         del outDict['Block']
-        for k, v in outDict.items():
+        for k, v in list(outDict.items()):
             if "Radical" in k:
                 dlgout += "<tr><td align=right style=\"color:grey;\">%s</td><td>&nbsp;</td><td style=\"white-space:nowrap;\">%s (%s%s - %s) %s.%s" % (k, v[0], v[1], v[2], v[3], v[4], v[5])
             elif "Related" in k:
@@ -215,29 +215,29 @@ def main():
                 dlgout += "<tr><td align=right style=\"color:grey;\">%s</td><td>&nbsp;</td><td>%s</td></tr>" % (k, v)
             else:
                 try:
-                    v.items()
+                    list(v.items())
                     dlgout += "<tr><td colspan=2 align=right style=\"color:grey;\"><b><i>%s</i></b></td></tr>" % k
-                    for ku, vu in v.items():
+                    for ku, vu in list(v.items()):
                         dlgout += "<tr><td align=right style=\"color:grey;white-space:nowrap;\">%s</td><td>&nbsp;</td><td style=\"white-space:nowrap;\">%s</td></tr>" % (ku, vu)
                 except AttributeError:
                     dlgout += "<tr><td align=right style=\"color:grey;white-space:nowrap;\">%s</td><td>&nbsp;</td><td style=\"white-space:nowrap;\">%s</td></tr>" % (k, v)
 
-        cmd = "'%s' tooltip --html '%s'" % (os.environ["DIALOG"], dlgout.replace("'", u"＇"))
+        cmd = "'%s' tooltip --html '%s'" % (os.environ["DIALOG"], dlgout.replace("'", "＇"))
         os.popen(cmd.encode("UTF-8"))
         sys.exit(206)
     else:
-        sep = u"┊"
-        for k, v in outDict.items():
+        sep = "┊"
+        for k, v in list(outDict.items()):
             if "Radical" in k:
-                print "%-15s %s %s (%s%s - %s) %s.%s" % (k, sep, v[0], v[1], v[2], v[3], v[4], v[5])
+                print("%-15s %s %s (%s%s - %s) %s.%s" % (k, sep, v[0], v[1], v[2], v[3], v[4], v[5]))
             else:
                 try:
-                    v.items()
-                    print "%-15s" % k
-                    for ku, vu in v.items():
-                        print "%15s %s %s" % (ku, sep, vu)
+                    list(v.items())
+                    print("%-15s" % k)
+                    for ku, vu in list(v.items()):
+                        print("%15s %s %s" % (ku, sep, vu))
                 except AttributeError:
-                    print "%-15s %s %s" % (k, sep, v)
+                    print("%-15s %s %s" % (k, sep, v))
         sys.exit(206)
 
 if __name__ == "__main__":

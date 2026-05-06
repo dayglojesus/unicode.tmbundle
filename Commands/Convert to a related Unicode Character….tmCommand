@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>/usr/bin/python "$TM_BUNDLE_SUPPORT/bin/ConvertToUniChar.py" "relatedChars"</string>
+	<string>/usr/bin/env python3 "$TM_BUNDLE_SUPPORT/bin/ConvertToUniChar.py" "relatedChars"</string>
 	<key>fallbackInput</key>
 	<string>line</string>
 	<key>input</key>

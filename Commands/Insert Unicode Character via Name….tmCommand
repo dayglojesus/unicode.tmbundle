@@ -83,7 +83,7 @@ cat &lt;&lt;-HTML
 				TextMate.isBusy = true;
 				outStr = "";
 				document.getElementById("result").innerHTML = "";
-				var cmd = "[[ ! -e /tmp/TM_db.busy ]] &amp;&amp; /usr/bin/python '$TM_BUNDLE_SUPPORT/bin/SearchUNInames.py' '"+w+"' '"+term+"'";
+				var cmd = "[[ ! -e /tmp/TM_db.busy ]] &amp;&amp; /usr/bin/env python3 '$TM_BUNDLE_SUPPORT/bin/SearchUNInames.py' '"+w+"' '"+term+"'";
 				myCommand = TextMate.system(cmd, function (task) { });
 				myCommand.onreadoutput = output;
 				TextMate.isBusy = false;

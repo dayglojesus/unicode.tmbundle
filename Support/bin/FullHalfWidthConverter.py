@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # encoding: utf-8
 
 import sys
@@ -12,12 +12,12 @@ sys.stdin  = codecs.getreader('utf-8')(sys.stdin)
 bundleLibPath = os.environ["TM_BUNDLE_SUPPORT"] + "/lib/"
 
 if len(sys.argv) != 2:
-    print "No argument given!"
+    print("No argument given!")
     sys.exit(206)
 
 direction = sys.argv[1]
 if not (direction == 'toFull' or direction == 'toHalf'):
-    print "Wrong argument. Only 'toFull' or 'toHalf'."
+    print("Wrong argument. Only 'toFull' or 'toHalf'.")
     sys.exit(206)
 
 text = sys.stdin.read()
@@ -26,7 +26,7 @@ convData = codecs.open( bundleLibPath +"HanZenKaku.txt", "r", "UTF-8" )
 halffull = convData.read().strip()
 
 if not halffull:
-    print "File error for HanZenKaku.txt"
+    print("File error for HanZenKaku.txt")
     sys.exit(206)
 
 conv = {}

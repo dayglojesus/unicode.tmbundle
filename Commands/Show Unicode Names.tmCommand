@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/python
+	<string>#!/usr/bin/env python3
 # encoding: utf-8
 
 import unicodedata
@@ -20,7 +20,7 @@ bundleLibPath = os.environ["TM_BUNDLE_SUPPORT"] + "/lib/"
 
 def lastCharInUCSdec(s):
     if s:
-        if u"\udc00" &lt;= s[-1] &lt;= u"\udfff" and len(s) &gt;= 2 and u"\ud800" &lt;= s[-2] &lt;= u"\udbff":
+        if "\udc00" &lt;= s[-1] &lt;= "\udfff" and len(s) &gt;= 2 and "\ud800" &lt;= s[-2] &lt;= "\udbff":
             return ((ord(s[-2])&amp;0x3ff)&lt;&lt;10 | (ord(s[-1])&amp;0x3ff)) + 0x10000
         return ord(s[-1])
     return -1
@@ -45,7 +45,7 @@ def rangeName(dec):
     elif 0x4E00 &lt;= dec &lt;= 0x9FC3:
         return  "CJK UNIFIED IDEOGRAPH" + "-%04X" % dec
     elif 0xAC00 &lt;= dec &lt;= 0xD7A3: # Hangul
-        return  unicodedata.name(unichr(dec), "U+%04X" % dec)
+        return  unicodedata.name(chr(dec), "U+%04X" % dec)
     elif 0xD800 &lt;= dec &lt;= 0xDB7F:
         return  "Non Private Use High Surrogate"
     elif 0xDB80 &lt;= dec &lt;= 0xDBFF:
@@ -86,18 +86,18 @@ def getUnicodeName(dec):
             if c == 9:
                 char = ""
             else:
-                char = eval('u"\U%08X"' % c)
+                char = eval('u"\\U%08X"' % c)
             t = ""
-            if "COMBINING" in name: t = u"◌"
-            print "%s%s\t: U+%04X\t: %-11s\t: %s" % (t, char, int(c), " ".join([hex(ord(c))[2:].upper() for c in char.encode("utf-8")]), name)
+            if "COMBINING" in name: t = "◌"
+            print("%s%s\t: U+%04X\t: %-11s\t: %s" % (t, char, int(c), " ".join([hex(ord(c))[2:].upper() for c in char.encode("utf-8")]), name))
     sys.exit(206)
 
 if "TM_SELECTED_TEXT" in os.environ:
-    getUnicodeName(list(codepoints(unicode(os.environ["TM_SELECTED_TEXT"], "UTF-8"))))
+    getUnicodeName(list(codepoints(os.environ["TM_SELECTED_TEXT"])))
 else:
     line, x = os.environ["TM_CURRENT_LINE"], int(os.environ["TM_LINE_INDEX"])
     if not x: sys.exit(200)
-    getUnicodeName([lastCharInUCSdec(unicode(line[:x], "UTF-8"))])
+    getUnicodeName([lastCharInUCSdec(line[:x])])
 </string>
 	<key>fallbackInput</key>
 	<string>none</string>

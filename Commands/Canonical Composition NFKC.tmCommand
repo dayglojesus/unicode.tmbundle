@@ -6,11 +6,11 @@
 	<string>nop</string>
 	<key>command</key>
 	<string>T=$(perl -pe 's/\\/\\\\/g;s/\n/\\n/g;s/"/\\"/g')
-cat &lt;&lt;-PY | /usr/bin/python -
+cat &lt;&lt;-PY | /usr/bin/env python3 -
 # coding=utf-8
 import unicodedata
 import sys
-sys.__stdout__.write(unicodedata.normalize("NFKC", unicode("$T", "UTF-8")).encode("UTF-8"))
+sys.__stdout__.write(unicodedata.normalize("NFKC", "$T").encode("UTF-8"))
 sys.__stdout__.flush()
 PY</string>
 	<key>input</key>

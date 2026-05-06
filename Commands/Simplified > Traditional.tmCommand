@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/python
+	<string>#!/usr/bin/env python3
 # encoding: utf-8
 
 import sys
@@ -40,10 +40,10 @@ def codepoints(s):
 
 text = sys.stdin.read()
 
-tradsim = unicode(os.popen("grep 'T' '" + bundleLibPath +"zhSimtradHanzi.txt'").read(), "UTF-8").strip()
+tradsim = os.popen("grep 'T' '" + bundleLibPath +"zhSimtradHanzi.txt'").read().strip()
 
 if not tradsim:
-    print "Error"
+    print("Error")
     sys.exit(206)
 
 conv = {}
@@ -57,14 +57,14 @@ for c in codepoints(text):
     try:
         sim = conv[wunichr(c)]
         if sim.find(" ") != -1:
-            sys.stdout.write(u"${" + str(cnt) + ":{" + wunichr(c) + u"=" + u"|".join(sim.split(' ')) + u"\}}")
+            sys.stdout.write("${" + str(cnt) + ":{" + wunichr(c) + "=" + "|".join(sim.split(' ')) + "\}}")
             cnt += 1
         else:
             sys.stdout.write(sim)
     except:
         sys.stdout.write(snp_escape(wunichr(c)))
 
-if cnt &gt; 1: sys.stdout.write(u"${0:}")
+if cnt &gt; 1: sys.stdout.write("${0:}")
 </string>
 	<key>input</key>
 	<string>selection</string>

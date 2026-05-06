@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/python
+	<string>#!/usr/bin/env python3
 # coding=utf-8
 
 # written by Hans-Jörg Bibiko; bibiko at eva.mpg.de
@@ -37,7 +37,7 @@ if text:
             sys.exit(200)
     else: sys.exit(200)
 else:
-     print u"Please find '\{.*?=.*?\}' firstly."
+     print("Please find '\{.*?=.*?\}' firstly.")
      sys.exit(206)
 </string>
 	<key>fallbackInput</key>

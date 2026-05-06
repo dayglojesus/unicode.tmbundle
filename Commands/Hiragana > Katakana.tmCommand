@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/python
+	<string>#!/usr/bin/env python3
 # encoding: utf-8
 
 import sys
@@ -35,7 +35,7 @@ def codepoints(s):
 text = sys.stdin.read()
 for c in codepoints(text):
     if 12353 &lt;= c &lt;= 12436:
-        sys.stdout.write(unichr(c+96))
+        sys.stdout.write(chr(c+96))
     else:
         sys.stdout.write(wunichr(c))
 </string>

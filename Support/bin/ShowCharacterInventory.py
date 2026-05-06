@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # encoding: utf-8
 
 import sys
@@ -156,7 +156,7 @@ function normalizeString(s) {
 """
 
 def main():
-    print HEADER_HTML
+    print(HEADER_HTML)
 
     # dict of unique chars in doc and the number of its occurrence
     chKeys = {}
@@ -172,23 +172,23 @@ def main():
     except:
         1
 
-    keys = chKeys.keys()
+    keys = list(chKeys.keys())
     keys.sort()
 
 
-    print "<table border=1><tr>"
+    print("<table border=1><tr>")
 
     if len(keys)<400:
-        print "\
+        print("\
         <th><span title='click to sort' onclick='return sortTable2(0)'>Character</span></th> \
         <th><span title='click to sort' onclick='return sortTable2(1)'>Occurrences</span></th> \
         <th><span title='click to sort' onclick='return sortTable2(0)'>UCS</span></th> \
         <th><span title='click to sort' onclick='return sortTable2(3)'>Unicode Block</span></th> \
-        <th><span title='click to sort' onclick='return sortTable2(4)'>Unicode Name</span></th>"
+        <th><span title='click to sort' onclick='return sortTable2(4)'>Unicode Name</span></th>")
     else:
-        print "<th>Character</th><th>Occurrences</th><th>UCS</th><th>Unicode Block</th><th>Unicode Name</th>"
+        print("<th>Character</th><th>Occurrences</th><th>UCS</th><th>Unicode Block</th><th>Unicode Name</th>")
 
-    print "</tr><tbody id='theTable'>"
+    print("</tr><tbody id='theTable'>")
     #len(text) and len(keys) don't work caused by uni chars > U+FFFF
     total = 0
     distinct = 0
@@ -215,31 +215,31 @@ def main():
             except KeyError:
                 name = getNameForRange(c) + "-%04X" % int(c)
             if name[0] == '<': name = getNameForRange(c) + "-%04X" % int(c)
-            if "COMBINING" in name: t = u"◌" + t
-            print "<tr><td class='a'>", t, "</td><td class='a'>", chKeys[c], "</td><td>", "U+%04X" % (int(c)), "</td><td>", getBlockName(c), "</td><td>", name, "</tr>"
+            if "COMBINING" in name: t = "◌" + t
+            print("<tr><td class='a'>", t, "</td><td class='a'>", chKeys[c], "</td><td>", "U+%04X" % (int(c)), "</td><td>", getBlockName(c), "</td><td>", name, "</tr>")
 
-    print "</tbody></table>"
+    print("</tbody></table>")
 
     if total < 2:
         pl = ""
     else:
         pl = "s"
 
-    print '<h2><a name="inventory">Character Inventory</a></h2>'
-    print "<p><i>%d character%s total, %d distinct</i></p>" % (total, pl, distinct)
+    print('<h2><a name="inventory">Character Inventory</a></h2>')
+    print("<p><i>%d character%s total, %d distinct</i></p>" % (total, pl, distinct))
 
-    print '<table id="character-inventory">'
-    print '<tr>'
+    print('<table id="character-inventory">')
+    print('<tr>')
     i = 0
     for c in keys:
         if i > 0 and i % 25 == 0:
-            print '</tr><tr>'
-        print '<td>', wunichr(c), '</td>',
+            print('</tr><tr>')
+        print('<td>', wunichr(c), '</td>', end=' ')
         i += 1
-    print '</tr>'
-    print "</table>"
-    print "<p></p>"
-    print "</body></html>"
+    print('</tr>')
+    print("</table>")
+    print("<p></p>")
+    print("</body></html>")
 
 if __name__ == "__main__":
     main()
