@@ -14,8 +14,9 @@ import sys
 import unicodedata
 import re
 import warnings
+import subprocess
 
-from os import popen2, path, environ as env
+from os import path, environ as env
 
 tm_support_path = path.join(env["TM_SUPPORT_PATH"], "lib")
 if not tm_support_path in env:
@@ -43,29 +44,28 @@ with warnings.catch_warnings():
 	warnings.simplefilter("ignore")
 	# get the suggestion for 'char' by using grep against charList.txt
 	# and replace all newline by -
-	inp, out = popen2("grep '^"+char.encode("UTF-8")+"' '"+path.join(env["TM_BUNDLE_SUPPORT"], "lib/greekList.txt' | perl -pe 's/\n/-/g'"))
-	inp.close()
-	suggestions = list(out.read())[1:-1]
-	out.close()
+	cmd = "grep '^"+char+"' '"+path.join(env["TM_BUNDLE_SUPPORT"], "lib/greekList.txt' | perl -pe 's/\n/-/g'")
+	proc = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+	suggestions = list(proc.stdout)[1:-1]
 
 	if len(suggestions) == 0:
 	    mes = "Nothing found for '" + char + "'."
-	    sys.__stdout__.write(mes.encode("UTF-8"))
+	    sys.__stdout__.write(mes)
 	    sys.exit(206)
 
 	if len(suggestions) == 1:
-	    sys.__stdout__.write(head.encode("UTF-8"))
-	    sys.__stdout__.write(re.sub(r'\\','',suggestions[0]).encode("UTF-8"))
-	    sys.__stdout__.write(tail.encode("UTF-8"))
+	    sys.__stdout__.write(head)
+	    sys.__stdout__.write(re.sub(r'\\','',suggestions[0]))
+	    sys.__stdout__.write(tail)
 	    sys.exit(201)
 	try:
 	    result=dialog.menu([tm_helpers.sh_escape(a) + "\t" + unicodedata.name(a, "U+%04X" % ord(a)) for a in suggestions])
 	    if not result:
 	        sys.exit(200)
 
-	    sys.__stdout__.write(head.encode("UTF-8"))
-	    sys.__stdout__.write(re.sub(r'\\','',result.split('\t')[0]).encode("UTF-8"))
-	    sys.__stdout__.write(tail.encode("UTF-8"))
+	    sys.__stdout__.write(head)
+	    sys.__stdout__.write(re.sub(r'\\','',result.split('\t')[0]))
+	    sys.__stdout__.write(tail)
 	    sys.exit(201)
 	except KeyError:
 	    sys.exit(206)

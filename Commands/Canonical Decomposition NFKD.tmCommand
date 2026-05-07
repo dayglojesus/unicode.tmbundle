@@ -10,7 +10,7 @@ cat &lt;&lt;-PY | /usr/bin/env python3 -
 # coding=utf-8
 import unicodedata
 import sys
-sys.__stdout__.write(unicodedata.normalize("NFKD", "$T").encode("UTF-8"))
+sys.__stdout__.write(unicodedata.normalize("NFKD", "$T"))
 sys.__stdout__.flush()
 PY</string>
 	<key>input</key>

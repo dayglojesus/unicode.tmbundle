@@ -3,12 +3,8 @@
 
 import sys
 import os
-import codecs
 import unicodedata
 from UniTools import *
-
-sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
-sys.stdin  = codecs.getreader('utf-8')(sys.stdin)
 
 bundleLibPath = os.environ["TM_BUNDLE_SUPPORT"] + "/lib/"
 

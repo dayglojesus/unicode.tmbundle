@@ -10,6 +10,7 @@
 
 import sys
 import os
+import subprocess
 import warnings
 
 def lastCharInUCSdec(s):
@@ -380,9 +381,7 @@ if not lastCharDecCode: sys.exit(200)
 
 with warnings.catch_warnings():
 	warnings.simplefilter("ignore")
-	inp, out = os.popen2("open -a Safari 'http://www.unicode.org/charts/PDF/" + getPDFRange(lastCharDecCode) + "?"+"%04X" % lastCharDecCode +"'; echo -en 'tell app \"Safari\" to activate\ntell app \"System Events\"\nkeystroke \"f\" using (command down)\nkeystroke \""+"%04X" % lastCharDecCode+"\"\nend tell' | iconv -f UTF-8 -t MACROMAN | osascript --")
-	inp.close()
-	out.close()
+	subprocess.run("open -a Safari 'http://www.unicode.org/charts/PDF/" + getPDFRange(lastCharDecCode) + "?"+"%04X" % lastCharDecCode +"'; echo -en 'tell app \"Safari\" to activate\ntell app \"System Events\"\nkeystroke \"f\" using (command down)\nkeystroke \""+"%04X" % lastCharDecCode+"\"\nend tell' | iconv -f UTF-8 -t MACROMAN | osascript --", shell=True)
 </string>
 	<key>fallbackInput</key>
 	<string>none</string>

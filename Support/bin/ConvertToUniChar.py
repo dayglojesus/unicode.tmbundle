@@ -5,7 +5,6 @@
 
 import sys
 import os
-import codecs
 import re
 import zipfile
 import unicodedata
@@ -17,9 +16,6 @@ if not tm_support_path in os.environ:
 
 import dialog
 import tm_helpers
-
-sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
-sys.stdin  = codecs.getreader('utf-8')(sys.stdin)
 
 bundleLibPath = os.environ["TM_BUNDLE_SUPPORT"] + "/lib/"
 pyversion = int("".join(sys.version.split()[0].split('.')))
@@ -99,9 +95,9 @@ for c in suggestions:
 try:
     result=dialog.menu(sugglist)
     if not result: sys.exit(200)
-    sys.__stdout__.write("".join(map(wunichr, head)).encode("UTF-8"))
-    sys.__stdout__.write(result.split('\t')[0].encode("UTF-8"))
-    sys.__stdout__.write(tail.encode("UTF-8"))
+    sys.__stdout__.write("".join(map(wunichr, head)))
+    sys.__stdout__.write(result.split('\t')[0])
+    sys.__stdout__.write(tail)
     sys.exit(201)
 except KeyError:
     sys.exit(206)

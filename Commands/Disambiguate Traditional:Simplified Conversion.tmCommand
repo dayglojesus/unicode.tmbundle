@@ -11,7 +11,6 @@
 # written by Hans-Jörg Bibiko; bibiko at eva.mpg.de
 
 import sys
-import codecs
 
 from os import path, environ as env
 
@@ -20,9 +19,6 @@ if not tm_support_path in env:
      sys.path.insert(0, tm_support_path)
 import dialog
 import tm_helpers
-
-sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
-sys.stdin  = codecs.getreader('utf-8')(sys.stdin)
 
 text = sys.stdin.read()
 

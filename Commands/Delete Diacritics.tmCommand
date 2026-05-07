@@ -10,7 +10,7 @@ cat &lt;&lt;-PY | python3 - | perl -e 'no warnings;binmode (STDIN, ":utf8");whil
 # coding=utf-8
 import unicodedata
 import sys
-sys.__stdout__.write(unicodedata.normalize("NFKD", "$T").encode("UTF-8"))
+sys.__stdout__.write(unicodedata.normalize("NFKD", "$T"))
 sys.__stdout__.flush()
 PY</string>
 	<key>input</key>

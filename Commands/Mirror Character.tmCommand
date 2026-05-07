@@ -14,8 +14,9 @@ import sys
 import unicodedata
 import re
 import warnings
+import subprocess
 
-from os import popen2, path, environ as env
+from os import path, environ as env
 
 tm_support_path = path.join(env["TM_SUPPORT_PATH"], "lib")
 if not tm_support_path in env:
@@ -42,10 +43,9 @@ head = inputleft[:-1]
 with warnings.catch_warnings():
 	warnings.simplefilter("ignore")
 
-	inp, out = popen2("grep '^"+char.encode("UTF-8")+"' '"+path.join(env["TM_BUNDLE_SUPPORT"], "lib/mirror.txt'"))
-	inp.close()
-	data = out.read().rstrip()
-	out.close()
+	cmd = "grep '^"+char+"' '"+path.join(env["TM_BUNDLE_SUPPORT"], "lib/mirror.txt'")
+	proc = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+	data = proc.stdout.rstrip()
 
 	if len(data) &lt; 3:
 	    sys.exit(200)
@@ -53,9 +53,9 @@ with warnings.catch_warnings():
 	cc, mirror = data.split('\t')
 
 	if len(mirror):
-	    sys.__stdout__.write(head.encode("UTF-8"))
-	    sys.__stdout__.write(mirror.encode("UTF-8"))
-	    sys.__stdout__.write(tail.encode("UTF-8"))
+	    sys.__stdout__.write(head)
+	    sys.__stdout__.write(mirror)
+	    sys.__stdout__.write(tail)
 	    sys.exit(201)
 
 	sys.exit(200)

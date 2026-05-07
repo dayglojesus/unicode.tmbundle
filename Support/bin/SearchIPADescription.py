@@ -3,13 +3,9 @@
 
 import sys
 import os
-import codecs
 import unicodedata
 from binascii import hexlify
 from UniTools import wunichr, wuniord
-
-sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
-sys.stdin  = codecs.getreader('utf-8')(sys.stdin)
 
 bundleLibPath = os.environ["TM_BUNDLE_SUPPORT"] + "/lib/"
 
@@ -83,7 +79,7 @@ for i in suggestions.split('\n'):
         print("<span onclick='insertChar(this)' onmouseout='clearName()'; onmouseover='showName(\"U+%s : %s<br>%s\")' class='char'>%s%s</span> " % ("%04X" % wuniord(c), n, uname, t, c))
     else:
         if c == "̪͆": t = "<small>◌</small>"
-        print("<span onclick='insertChar(\"%s\")' onmouseout='clearName()'; onmouseover='showName(\"%s\")' class='char'>%s%s</span> " % (hexlify(c.encode("UTF-8")), n, t, c))
+        print("<span onclick='insertChar(\"%s\")' onmouseout='clearName()'; onmouseover='showName(\"%s\")' class='char'>%s%s</span> " % (hexlify(c.encode("UTF-8")).decode("ascii"), n, t, c))
 
 pl = ""
 if cnt > 1: pl = "es"

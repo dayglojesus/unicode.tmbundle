@@ -4,14 +4,10 @@
 import unicodedata
 import sys
 import os
-import codecs
 import plistlib
 
 from binascii import hexlify
 from UniTools import *
-
-sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
-sys.stdin  = codecs.getreader('utf-8')(sys.stdin)
 
 class SeqDict(dict):
     """Dict that remembers the insertion order."""
@@ -192,8 +188,8 @@ def main():
 
     cpDict = SeqDict()
     cpDict['UCS dec/hex'] = "%s / U+%s" % (str(lastCharDecCode), lastCharUCShexCode)
-    cpDict['UTF-8'] = " ".join([hex(ord(c))[2:].upper() for c in char.encode("utf-8")])
-    utf16be = hexlify(char.encode("utf-16-be")).upper()
+    cpDict['UTF-8'] = " ".join(["%02X" % b for b in char.encode("utf-8")])
+    utf16be = hexlify(char.encode("utf-16-be")).decode("ascii").upper()
     if len(utf16be)>4: cpDict['UTF-16BE'] = utf16be[:4] + "+" + utf16be[4:]
     outDict['Codepoints'] = cpDict
 
@@ -223,7 +219,7 @@ def main():
                     dlgout += "<tr><td align=right style=\"color:grey;white-space:nowrap;\">%s</td><td>&nbsp;</td><td style=\"white-space:nowrap;\">%s</td></tr>" % (k, v)
 
         cmd = "'%s' tooltip --html '%s'" % (os.environ["DIALOG"], dlgout.replace("'", "＇"))
-        os.popen(cmd.encode("UTF-8"))
+        os.popen(cmd)
         sys.exit(206)
     else:
         sep = "┊"
